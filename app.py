@@ -50,3 +50,34 @@ def Sessions(filepath='part3/exited_game.csv'):
     sessions = df[df['EventName'] == 'exited_game']
 
     return sessions
+
+
+def ProgressData(filepath='part3/exited_game.csv'):
+    import pandas as pd
+import pandas as pd
+
+def ProgressData(filepath='part3/exited_game.csv'):
+    logIn = pd.read_csv('part3/player_logged_in.csv')
+    logIn['Time'] = pd.to_datetime(logIn['Time'])
+
+    logOut = pd.read_csv(filepath)
+    logOut['Time'] = pd.to_datetime(logOut['Time'])
+
+    logIn = logIn[logIn['EventName'] == 'player_logged_in']
+    logOut = logOut[logOut['EventName'] == 'exited_game']
+
+    logIn.sort_values(by=['pid', 'Time'], inplace=True)
+    logOut.sort_values(by=['pid', 'Time'], inplace=True)
+
+    logIn = logIn.reset_index(drop=True)
+    logOut = logOut.reset_index(drop=True)
+
+    df = logOut.copy()
+    df['LoginTime'] = logIn['Time']
+    
+    df['SessionDuration'] = (logOut['CurrentSessionLength'])
+
+    df['ProgressAmount'] = df['LevelProgressionAmount']
+
+    return df
+
