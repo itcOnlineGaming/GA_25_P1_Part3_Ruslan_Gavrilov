@@ -81,3 +81,20 @@ def ProgressData(filepath='part3/exited_game.csv'):
 
     return df
 
+def NumberOfCompletedTasks(filepath='part3/job_completed.csv'):
+    JobsStarted = pd.read_csv('part3/job_started.csv')
+    JobsStarted['Time'] = pd.to_datetime(JobsStarted['Time'])
+    JobsStarted.sort_values(by=['pid', 'Time'], inplace=True)
+
+    JobComplete = pd.read_csv(filepath)
+    JobComplete['Time'] = pd.to_datetime(JobComplete['Time'])
+
+    df = JobsStarted.copy()
+    df['job_started'] = JobsStarted['Time']
+    
+    df['job_completed'] = (JobComplete['Time'])
+
+    df['ProgressAmount'] = JobComplete['CampaignProgressionAmount']
+
+    return df
+
