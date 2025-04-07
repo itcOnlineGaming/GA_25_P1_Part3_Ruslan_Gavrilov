@@ -26,9 +26,8 @@ def DailyUniquePlayers(filepath='part3/player_logged_in.csv'):
     print(daily_unique)
     return daily_unique
 
-def MonthlyUniquePlayers(filepath='part3/player_logged_in.csv'):
-    import pandas as pd
 
+def MonthlyUniquePlayers(filepath='part3/player_logged_in.csv'):
     df = pd.read_csv(filepath)
 
     df['Time'] = pd.to_datetime(df['Time'])
@@ -39,5 +38,7 @@ def MonthlyUniquePlayers(filepath='part3/player_logged_in.csv'):
 
     monthly_unique = login_events.groupby('Month')['pid'].nunique()
 
+    monthly_unique.index = monthly_unique.index.to_timestamp()
+    
     print(monthly_unique)
     return monthly_unique
